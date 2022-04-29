@@ -2,7 +2,6 @@
 use std::env;
 use std::process::exit;
 
-#[derive(Debug)]
 struct Flags {
     force: bool,
     prompt: bool,
@@ -77,23 +76,23 @@ fn main() {
            else if item.contains("--version") {
                user_flags.version = true;
            }
+           else {
+               for ch in item.chars() {
+                   match ch {
+                       'f' => user_flags.force = true,
+                       'i' => user_flags.prompt = true,
+                       'I' => user_flags.weak_prompt = true,
+                       'r' => user_flags.recursive = true,
+                       'R' => user_flags.recursive = true,
+                       'd' => user_flags.empty_dir = true,
+                       'v' => user_flags.verbose = true,
+                       '-' => continue,
+                        _  => error_out(1, ch.to_string()),
+                   };
+               }
 
-           for ch in item.chars() {
-               match ch {
-                   'f' => user_flags.force = true,
-                   'i' => user_flags.prompt = true,
-                   'I' => user_flags.weak_prompt = true,
-                   'r' => user_flags.recursive = true,
-                   'R' => user_flags.recursive = true,
-                   'd' => user_flags.empty_dir = true,
-                   'v' => user_flags.verbose = true,
-                   '-' => continue,
-                    _  => error_out(1, ch.to_string()),
-               };
            }
         }
     }
-
-    println!("{:?}", user_flags);
 
 }
